@@ -1,3 +1,4 @@
 resources:
-  - rhel9-pleasant-piranha.yaml
-  - ../configs
+  # - rhel9-pleasant-piranha.yaml
+  - fedora-gitops-one.yaml
+  # - ../configs
