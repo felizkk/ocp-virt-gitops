@@ -3,6 +3,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: pleasant-piranha-disk
   namespace: beehive-virtual-machines
+  annotations:
+    cdi.kubevirt.io/storage.import.sourceName: pleasant-import-source
 spec:
   dataSourceRef:
     apiGroup: cdi.kubevirt.io
