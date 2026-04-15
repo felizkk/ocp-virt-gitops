@@ -21,7 +21,8 @@ items:
       vm.kubevirt.io/template.revision: "1"
       vm.kubevirt.io/template.version: v0.26.0
     name: rhel9-pleasant-piranha
-  spec:    
+    namespace: beehive-virtual-machines
+  spec:
     running: true
     template:
       metadata:
