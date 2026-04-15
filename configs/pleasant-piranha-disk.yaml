@@ -10,7 +10,8 @@ spec:
     name: pleasant-import-source
   accessModes:
     - ReadWriteMany
-  volumeMode: Block
+  volumeMode: Filesystem
+  storageClassName: nfs-client
   resources:
     requests:
       storage: 30Gi
