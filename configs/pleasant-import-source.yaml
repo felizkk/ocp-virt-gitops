@@ -8,3 +8,4 @@ spec:
     registry:
       url: "docker://registry.redhat.io/rhel9/rhel-guest-image:9.3-748"
       pullMethod: node
+      secretRef: redhat-pull-secret
