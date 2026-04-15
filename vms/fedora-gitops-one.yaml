@@ -1,0 +1,69 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: fedora-gitops-one
+  namespace: beehive-virtual-machines
+spec:
+  # Storage Definition
+  dataVolumeTemplates:
+    - metadata:
+        name: fedora-gitops-one-volume
+      spec:
+        sourceRef:
+          kind: DataSource
+          name: fedora
+          namespace: openshift-virtualization-os-images
+        storage:
+          accessModes:
+            - ReadWriteMany
+          volumeMode: Filesystem
+          storageClassName: nfs-client
+          resources:
+            requests:
+              storage: 30Gi
+  # Hardware Profile
+  instancetype:
+    kind: VirtualMachineClusterInstancetype
+    name: u1.small
+
+  runStrategy: Halted
+
+  # Guest Template
+  template:
+    metadata:
+      labels:
+        network.kubevirt.io/headlessService: headless
+    spec:
+      architecture: amd64
+      domain:
+        cpu:
+          model: host-passthrough
+        devices:
+          autoattachPodInterface: false
+          disks:
+            - bootOrder: 1
+              name: rootdisk
+          interfaces:
+            - name: default
+              masquerade: {}
+        machine:
+          type: pc-q35-rhel9.6.0
+        resources: {}
+      networks:
+        - name: default
+          pod: {}
+      nodeSelector:
+        node-role.kubernetes.io/worker: ''
+      subdomain: headless
+      volumes:
+        - dataVolume:
+            name: fedora-gitops-one-volume
+          name: rootdisk
+        - cloudInitNoCloud:
+            userData: |
+              #cloud-config
+              chpasswd:
+                expire: false
+              password: fedorasecret
+              user: fedora
+          name: cloudinitdisk
